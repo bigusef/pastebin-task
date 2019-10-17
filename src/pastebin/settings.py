@@ -38,6 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third-party Apps
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    # Project Apps
     'authentication.apps.AuthenticationConfig',
     'snippet.apps.SnippetConfig',
 ]
@@ -54,6 +59,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pastebin.urls'
 
+
+# Customize user model for our app
 AUTH_USER_MODEL = 'authentication.User'
 
 TEMPLATES = [
@@ -127,3 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Django Rest Freamework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
+}
