@@ -5,6 +5,10 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from helper.models import BaseModel
+
+from .managers import ProfileManager
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     """
@@ -67,7 +71,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
-class Profile(models.Model):
+class Profile(BaseModel):
     MALE = 1
     FEMALE = 2
 
@@ -82,8 +86,37 @@ class Profile(models.Model):
     gender = models.IntegerField(choices=GENDER_CHOICE, default=MALE)
     birth_date = models.DateField(null=True, blank=True)
 
+    objects = ProfileManager()
+
+    class Meta:
+        managed = True
+        abstract = False
+        db_table = 'auth_user_profile'
+        verbose_name = _('user profile')
+        verbose_name_plural = _('users profile')
+
+    @property
+    def full_name(self) -> str:
+        """
+        if user have first_name and last_name
+        Return the first_name plus the last_name, with a space in between.
+        Or will return empty stringn
+        """
+        if self.first_name or self.last_name:
+            space = ' ' if self.first_name else ''
+            return ''.join([
+                self.first_name,
+                space,
+                self.last_name
+            ])
+        else:
+            return ''
+
     @property
     def age(self) -> int:
+        """
+        Return the user age based on birth date
+        """
         if self.birth_date:
             today = timezone.now().date()
             days = (today.month, today.day) < (self.birth_date.month, self.birth_date.day)

@@ -1,0 +1,274 @@
+{
+	"info": {
+		"_postman_id": "3772cf2b-eeda-4b6c-84c4-4c4ba73a0831",
+		"name": "Pastebin",
+		"description": "#Pastebin API Docs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register new user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/auth/register/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"register",
+								""
+							]
+						},
+						"description": "API to let any visitor register on our website using this information:\n- username\n- password\n- email *optional*"
+					},
+					"response": []
+				},
+				{
+					"name": "User login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/auth/login/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"login",
+								""
+							]
+						},
+						"description": "API to let any register user on our website to login using this information:\n- username\n- password"
+					},
+					"response": []
+				},
+				{
+					"name": "User logout",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{toke}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{servier_link}}/auth/logout/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"logout",
+								""
+							]
+						},
+						"description": "give power of logout user and delete his token from server side\n\n\n**Authorization required**"
+					},
+					"response": []
+				},
+				{
+					"name": "User profile Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{toke}}"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/auth/profile/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"profile",
+								""
+							]
+						},
+						"description": "return user profile information:\n- full name\n- gender\n- age\n- user information:\n\t- username\n\t- email\n\n**Authorization required**"
+					},
+					"response": []
+				},
+				{
+					"name": "User profile form",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{toke}}"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "first_name",
+									"value": "Mahmud",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "last_name",
+									"value": "Youssef",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "gender",
+									"value": "1",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "1986-10-04",
+									"description": "optional",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/auth/profile/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"profile",
+								""
+							]
+						},
+						"description": "API to update profile information:\n- first_name\n- last_name\n- gender\n- birth_date\n\n\nreturn user profile information:\n- full name\n- gender\n- age\n- user information:\n\t- username\n\t- email\n\n**Authorization required**"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "244c7b36-ed01-405e-a090-7ed57c67b6eb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "81055108-a1b3-4c05-95a8-1e8bf42beb6a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8c0a73cd-fbb9-4079-a956-ad4053aebb00",
+			"key": "servier_link",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"id": "1e13afd4-a421-4d36-b2fb-e45aa2955e42",
+			"key": "toke",
+			"value": "84d0508a966665d9766844d46249a8ff8d95c5d0",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

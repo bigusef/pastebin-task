@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -34,13 +33,13 @@ class Pastes(BaseModel):
         (PRIVATE, _('Private')),
     )
 
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
+    author = models.ForeignKey('authentication.Profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=45)
     contect = models.TextField()
     expiration = models.IntegerField(choices=EXPIRATION_CHOICE, default=NEVER)
     expire_date = models.DateTimeField(null=True, blank=True, editable=False)
     privacy = models.IntegerField(choices=PRIVACY_CHOICE, default=PUBLIC)
-    allowed_user = models.ManyToManyField(get_user_model(), related_name='shared', null=True, blank=True)
+    allowed_user = models.ManyToManyField('authentication.Profile', related_name='shared', blank=True)
     shortcode = models.CharField(max_length=15, unique=True, blank=True)
 
     def __str__(self) -> str:
