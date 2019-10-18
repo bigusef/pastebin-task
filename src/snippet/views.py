@@ -10,7 +10,7 @@ class PastesViewset(ModelViewSet):
     model = Pastes
     queryset = Pastes.objects.all()
     serializer_class = PastesSerializer
-    permission_classes = AllowAny
+    permission_classes = AllowAny,
     lookup_field = 'shortcode'
 
     def get_serializer_context(self):

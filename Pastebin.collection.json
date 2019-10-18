@@ -54,7 +54,7 @@
 								""
 							]
 						},
-						"description": "API to let any visitor register on our website using this information:\n- username\n- password\n- email *optional*"
+						"description": "API to let any visitor register on our website using this information:\n- username\n- password\n- email *optional*\n\n**NO Authorization**"
 					},
 					"response": []
 				},
@@ -97,7 +97,7 @@
 								""
 							]
 						},
-						"description": "API to let any register user on our website to login using this information:\n- username\n- password"
+						"description": "API to let any register user on our website to login using this information:\n- username\n- password\n\n\n**NO Authorization**"
 					},
 					"response": []
 				},
@@ -191,25 +191,25 @@
 							"formdata": [
 								{
 									"key": "first_name",
-									"value": "Mahmud",
+									"value": "",
 									"description": "optional",
 									"type": "text"
 								},
 								{
 									"key": "last_name",
-									"value": "Youssef",
+									"value": "",
 									"description": "optional",
 									"type": "text"
 								},
 								{
 									"key": "gender",
-									"value": "1",
+									"value": "",
 									"description": "optional",
 									"type": "text"
 								},
 								{
 									"key": "birth_date",
-									"value": "1986-10-04",
+									"value": "",
 									"description": "optional",
 									"type": "text"
 								}
@@ -227,6 +227,143 @@
 							]
 						},
 						"description": "API to update profile information:\n- first_name\n- last_name\n- gender\n- birth_date\n\n\nreturn user profile information:\n- full name\n- gender\n- age\n- user information:\n\t- username\n\t- email\n\n**Authorization required**"
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Pastes",
+			"item": [
+				{
+					"name": "Add new Pastes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"description": "optional",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "contect",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "expiration",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "privacy",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "allowed_user",
+									"value": "",
+									"description": "optional",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "shortcode",
+									"value": "",
+									"description": "optional",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/pastes/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								""
+							]
+						},
+						"description": "let authenticated user and guest user to create new paste.\n\n\n**for guest user** he will be abel to create new pastes but he can't do any operation on this pastes and pastes privacy will alwes be public\n\n\n**for authenticated user** he will be abel to do Full CRUD operation and pastes privacy can be ( Public, Shared and Private)\n\n\n**Authorization Optional**"
+					},
+					"response": []
+				},
+				{
+					"name": "List all Pastes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/pastes/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								""
+							]
+						},
+						"description": "let authenticated user and guest user to list all public Pastes. this API will return only public Pastes\n\n\n**NO Authorization**"
+					},
+					"response": []
+				},
+				{
+					"name": "List My pastes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/pastes/my-pastes/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								"my-pastes",
+								""
+							]
+						},
+						"description": "list all pastes the current authenticated user is created to sheard with him\n\n\n**Authorization required**"
 					},
 					"response": []
 				}
@@ -258,13 +395,13 @@
 	],
 	"variable": [
 		{
-			"id": "8c0a73cd-fbb9-4079-a956-ad4053aebb00",
+			"id": "e9807d8f-9890-487d-bcdc-14205f41923e",
 			"key": "servier_link",
 			"value": "http://127.0.0.1:8000",
 			"type": "string"
 		},
 		{
-			"id": "1e13afd4-a421-4d36-b2fb-e45aa2955e42",
+			"id": "87045b13-900b-4b0c-8f6f-95d948ef9d09",
 			"key": "toke",
 			"value": "84d0508a966665d9766844d46249a8ff8d95c5d0",
 			"type": "string"

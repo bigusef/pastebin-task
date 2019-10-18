@@ -4,16 +4,21 @@ from authentication.serializers import UserProfileSerializer
 from .models import Pastes
 
 
-class PastesSerializer(serializers.ModelSerializer):
+class PastesSerializer(serializers.HyperlinkedModelSerializer):
     author = UserProfileSerializer(read_only=True)
     shared_user = UserProfileSerializer(read_only=True, many=True)
     expired = serializers.ReadOnlyField(source='is_expired')
 
     class Meta:
         model = Pastes
-        exclude = 'id', 'updated', 'expire_date',
+        exclude = 'expire_date', 'updated',
         extra_kwargs = {
             'allowed_user': {'write_only': True},
+            'shortcode': {'write_only': True},
+            'url': {
+                'view_name': 'snippet:pastes-detail',
+                'lookup_field': 'shortcode'
+            },
         }
 
     def create(self, validated_data):
@@ -37,6 +42,5 @@ class PastesSerializer(serializers.ModelSerializer):
         context.update({
             'expiration': instance.get_expiration_display(),
             'privacy': instance.get_privacy_display(),
-            'shortcode': instance.get_absolute_url(),
         })
         return context
