@@ -9,6 +9,7 @@ from helper.utilities import code_generator
 
 
 class Pastes(BaseModel):
+    # region Class attribute
     NEVER = 0
     HOUR = 1
     DAY = 2
@@ -18,7 +19,9 @@ class Pastes(BaseModel):
     PUBLIC = 0
     SHARED = 1
     PRIVATE = 2
+    # endregion
 
+    # region Class choices
     EXPIRATION_CHOICE = (
         (NEVER, _('Never')),
         (HOUR, _('an Hour')),
@@ -32,6 +35,7 @@ class Pastes(BaseModel):
         (SHARED, _('Shared')),
         (PRIVATE, _('Private')),
     )
+    # endregion
 
     author = models.ForeignKey('authentication.Profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=45)
@@ -40,7 +44,7 @@ class Pastes(BaseModel):
     expire_date = models.DateTimeField(null=True, blank=True, editable=False)
     privacy = models.IntegerField(choices=PRIVACY_CHOICE, default=PUBLIC)
     allowed_user = models.ManyToManyField('authentication.Profile', related_name='shared', blank=True)
-    shortcode = models.CharField(max_length=15, unique=True, blank=True)
+    shortcode = models.CharField(max_length=15, unique=True, blank=True, db_index=True)
 
     def __str__(self) -> str:
         return self.title
@@ -61,7 +65,7 @@ class Pastes(BaseModel):
         return super().save(*args, **kwarg)
 
     def get_absolute_url(self):
-        pass
+        return None
 
     @property
     def is_expired(self) -> bool:
