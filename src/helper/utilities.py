@@ -1,5 +1,7 @@
+import csv
 import string
 import random
+from django.http import HttpResponse
 
 
 def code_generator(instance, size=7):
@@ -11,3 +13,12 @@ def code_generator(instance, size=7):
         code_generator(instance=instance, size=size)
     else:
         return code
+
+
+def csv_file_render(headers: list, context: list):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="csv_render.csv"'
+    writer = csv.DictWriter(response, fieldnames=headers)
+    writer.writeheader()
+    writer.writerows(context)
+    return response

@@ -229,6 +229,60 @@
 						"description": "API to update profile information:\n- first_name\n- last_name\n- gender\n- birth_date\n\n\nreturn user profile information:\n- full name\n- gender\n- age\n- user information:\n\t- username\n\t- email\n\n**Authorization required**"
 					},
 					"response": []
+				},
+				{
+					"name": "Admin list statistics for all users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/auth/statistics/1/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"statistics",
+								"1",
+								""
+							]
+						},
+						"description": "this is API to list all user with statistics about there pastes\nevery user will git:\n- username\n- email\n- full name\n- total pastes\n- available pastes\n- unavailable_pastes\n\n\n**this aip for admin user only**"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin get statistics for one user",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/auth/statistics/1/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"auth",
+								"statistics",
+								"1",
+								""
+							]
+						},
+						"description": "this is API to get one user statistics about him pastes\nthe information is:\n- username\n- email\n- full name\n- total pastes\n- available pastes\n- unavailable_pastes\n\n\n**this aip for admin user only**"
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -258,32 +312,26 @@
 							"formdata": [
 								{
 									"key": "title",
-									"value": "",
+									"value": "mac 23",
 									"description": "required",
 									"type": "text"
 								},
 								{
 									"key": "contect",
-									"value": "",
+									"value": "mac 233",
 									"description": "required",
 									"type": "text"
 								},
 								{
 									"key": "expiration",
-									"value": "",
+									"value": "0",
 									"description": "required",
 									"type": "text"
 								},
 								{
 									"key": "privacy",
-									"value": "",
+									"value": "0",
 									"description": "required",
-									"type": "text"
-								},
-								{
-									"key": "allowed_user",
-									"value": "",
-									"description": "optional",
 									"type": "text"
 								},
 								{
@@ -519,6 +567,65 @@
 						"description": "only paste owner can update it.\n\n\n**Authorization required**"
 					},
 					"response": []
+				},
+				{
+					"name": "Edit Pastes shared member",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "allowed_user",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "allowed_user",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "allowed_user",
+									"value": "3",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/pastes/:shortcode/shared-member/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								":shortcode",
+								"shared-member",
+								""
+							],
+							"variable": [
+								{
+									"key": "shortcode",
+									"value": "rydpkh1fqvx2yq2"
+								}
+							]
+						},
+						"description": "only owner of pastes can shear his pastes with other auth user\nto can do that he need to push list of user profile ids\n\n\n**Authorization required**"
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}
@@ -548,15 +655,15 @@
 	],
 	"variable": [
 		{
-			"id": "d52e103a-677c-4cdd-bd6c-43dc3527a6d4",
+			"id": "a1b915b5-0d01-4236-9115-3ba0e03a1bdd",
 			"key": "servier_link",
 			"value": "http://127.0.0.1:8000",
 			"type": "string"
 		},
 		{
-			"id": "96e404cd-76fa-4627-83c8-a5a9eb659adc",
+			"id": "61cc0706-d209-4ee8-b2ea-9a8dca8bbf8e",
 			"key": "toke",
-			"value": "84d0508a966665d9766844d46249a8ff8d95c5d0",
+			"value": "13dcd4d4e21d6ad1ae9c5d257ab71bfdb1c07d42",
 			"type": "string"
 		}
 	],
