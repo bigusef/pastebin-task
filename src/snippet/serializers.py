@@ -4,18 +4,19 @@ from authentication.serializers import UserProfileSerializer
 from .models import Pastes
 
 
-class PastesSerializer(serializers.ModelSerializer):
+class PastesSerializer(serializers.HyperlinkedModelSerializer):
     author = UserProfileSerializer(read_only=True)
     shared_user = UserProfileSerializer(source='allowed_user', read_only=True, many=True)
     expired = serializers.ReadOnlyField(source='is_expired')
-    url = serializers.ReadOnlyField(source='get_absolute_url')
 
     class Meta:
         model = Pastes
-        exclude = 'id', 'expire_date', 'updated',
+        exclude = 'allowed_user', 'expire_date', 'updated',
         extra_kwargs = {
-            'shortcode': {'write_only': True},
-            'allowed_user': {'write_only': True},
+            'url': {
+                'lookup_field': "shortcode",
+                "view_name": "snippet:pastes-detail",
+            }
         }
 
     def create(self, validated_data):
@@ -30,12 +31,12 @@ class PastesSerializer(serializers.ModelSerializer):
         auth_user = self.context.get('auth_user')
         if not auth_user.is_authenticated and data['privacy'] != Pastes.PUBLIC:
             raise serializers.ValidationError("Only allowed privacy is Public")
-        if data['privacy'] != Pastes.SHARED and data['allowed_user']:
-            raise serializers.ValidationError("Can't select shared user unless you select your Privacy as Shared")
         return data
 
     def to_representation(self, instance):
         context = super().to_representation(instance)
+        if instance.privacy != Pastes.SHARED:
+            del context['shared_user']
         context.update({
             'expiration': instance.get_expiration_display(),
             'privacy': instance.get_privacy_display(),
