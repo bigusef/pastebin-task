@@ -6,19 +6,19 @@ from .models import Pastes
 
 class PastesSerializer(serializers.HyperlinkedModelSerializer):
     author = UserProfileSerializer(read_only=True)
-    shared_user = UserProfileSerializer(read_only=True, many=True)
+    shared_user = UserProfileSerializer(source='allowed_user', read_only=True, many=True)
     expired = serializers.ReadOnlyField(source='is_expired')
 
     class Meta:
         model = Pastes
         exclude = 'expire_date', 'updated',
         extra_kwargs = {
-            'allowed_user': {'write_only': True},
             'shortcode': {'write_only': True},
             'url': {
                 'view_name': 'snippet:pastes-detail',
                 'lookup_field': 'shortcode'
             },
+            'allowed_user': {'write_only': True},
         }
 
     def create(self, validated_data):

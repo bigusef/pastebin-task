@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from .models import Pastes
 from .serializers import PastesSerializer
+from .permissions import IsOwnedPastes, IsOwnedOrSharedPastes
 
 
 class PastesViewset(ModelViewSet):
@@ -23,6 +24,28 @@ class PastesViewset(ModelViewSet):
     def list(self, request, *args, **kwargs):
         self.queryset = Pastes.objects.filter(privacy=Pastes.PUBLIC)
         return super().list(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.privacy == Pastes.PRIVATE:
+            self.permission_classes = IsOwnedPastes,
+        elif instance.privacy == Pastes.SHARED:
+            self.permission_classes = IsOwnedOrSharedPastes,
+        else:
+            self.permission_classes = AllowAny,
+        return super().retrieve(request, *args, **kwargs)
+
+    def update(self, request, *args, **kwargs):
+        self.permission_classes = IsOwnedPastes,
+        return super().update(request, *args, **kwargs)
+
+    def partial_update(self, request, *args, **kwargs):
+        self.permission_classes = IsOwnedPastes,
+        return super().partial_update(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        self.permission_classes = IsOwnedPastes,
+        return super().destroy(request, *args, **kwargs)
 
     @action(
         detail=False,

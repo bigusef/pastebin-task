@@ -250,8 +250,7 @@
 								"key": "Authorization",
 								"value": "Token {{toke}}",
 								"description": "optional",
-								"type": "text",
-								"disabled": true
+								"type": "text"
 							}
 						],
 						"body": {
@@ -285,8 +284,7 @@
 									"key": "allowed_user",
 									"value": "",
 									"description": "optional",
-									"type": "text",
-									"disabled": true
+									"type": "text"
 								},
 								{
 									"key": "shortcode",
@@ -363,7 +361,162 @@
 								""
 							]
 						},
-						"description": "list all pastes the current authenticated user is created to sheard with him\n\n\n**Authorization required**"
+						"description": "list all pastes that created by current authenticated user **OR** sheard with him\n\n\n**Authorization required**"
+					},
+					"response": []
+				},
+				{
+					"name": "Pastes Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"description": "optional",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/pastes/:shortcode/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								":shortcode",
+								""
+							],
+							"variable": [
+								{
+									"key": "shortcode",
+									"value": "qmfo8zt9k38kmgc"
+								}
+							]
+						},
+						"description": "get a paste details based on paste privacy:\n- if paste is **Public** all authenticated user and gust user can see it\n- if paste is **Shared** only owner or shared user can see that paste\n- if paste i **Privet** only owner user can see it\n\n\n\nAuthorization Optional"
+					},
+					"response": []
+				},
+				{
+					"name": "Pastes Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"description": "optional",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "contect",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "expiration",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "privacy",
+									"value": "",
+									"description": "required",
+									"type": "text"
+								},
+								{
+									"key": "allowed_user",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								},
+								{
+									"key": "shortcode",
+									"value": "",
+									"description": "optional",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{servier_link}}/pastes/:shortcode/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								":shortcode",
+								""
+							],
+							"variable": [
+								{
+									"key": "shortcode",
+									"value": "rtu5lmtlecb1h1e"
+								}
+							]
+						},
+						"description": "only paste owner can update it.\n\nfields we need it as required:\n- title\n- contect\n- expiration\n- privacy\n\n\nfields marked as optional\n- shortcode\n- allowed_user\n\n\n**Authorization required**"
+					},
+					"response": []
+				},
+				{
+					"name": "Pastes Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"description": "optional",
+								"key": "Authorization",
+								"type": "text",
+								"value": "Token {{toke}}"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/pastes/:shortcode/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								":shortcode",
+								""
+							],
+							"variable": [
+								{
+									"key": "shortcode",
+									"value": "qmfo8zt9k38kmgc"
+								}
+							]
+						},
+						"description": "only paste owner can update it.\n\n\n**Authorization required**"
 					},
 					"response": []
 				}
@@ -395,13 +548,13 @@
 	],
 	"variable": [
 		{
-			"id": "e9807d8f-9890-487d-bcdc-14205f41923e",
+			"id": "d52e103a-677c-4cdd-bd6c-43dc3527a6d4",
 			"key": "servier_link",
 			"value": "http://127.0.0.1:8000",
 			"type": "string"
 		},
 		{
-			"id": "87045b13-900b-4b0c-8f6f-95d948ef9d09",
+			"id": "96e404cd-76fa-4627-83c8-a5a9eb659adc",
 			"key": "toke",
 			"value": "84d0508a966665d9766844d46249a8ff8d95c5d0",
 			"type": "string"
