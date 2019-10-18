@@ -4,20 +4,17 @@ from authentication.serializers import UserProfileSerializer
 from .models import Pastes
 
 
-class PastesSerializer(serializers.HyperlinkedModelSerializer):
+class PastesSerializer(serializers.ModelSerializer):
     author = UserProfileSerializer(read_only=True)
     shared_user = UserProfileSerializer(source='allowed_user', read_only=True, many=True)
     expired = serializers.ReadOnlyField(source='is_expired')
+    url = serializers.ReadOnlyField(source='get_absolute_url')
 
     class Meta:
         model = Pastes
-        exclude = 'expire_date', 'updated',
+        exclude = 'id', 'expire_date', 'updated',
         extra_kwargs = {
             'shortcode': {'write_only': True},
-            'url': {
-                'view_name': 'snippet:pastes-detail',
-                'lookup_field': 'shortcode'
-            },
             'allowed_user': {'write_only': True},
         }
 
@@ -44,3 +41,20 @@ class PastesSerializer(serializers.HyperlinkedModelSerializer):
             'privacy': instance.get_privacy_display(),
         })
         return context
+
+
+class AllwedUserSerializer(serializers.ModelSerializer):
+    shared_user = UserProfileSerializer(source='allowed_user', read_only=True, many=True)
+
+    class Meta:
+        model = Pastes
+        fields = 'allowed_user', 'shared_user',
+        extra_kwargs = {
+            'allowed_user': {'write_only': True},
+        }
+
+    def update(self, instance, validated_data):
+        if instance.privacy == Pastes.SHARED:
+            return super().update(instance, validated_data)
+        else:
+            raise serializers.ValidationError("Can't select shared user unless you select your Privacy as Shared")

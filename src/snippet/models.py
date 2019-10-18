@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
@@ -63,6 +64,9 @@ class Pastes(BaseModel):
             self.shortcode = code_generator(self, 15)
 
         return super().save(*args, **kwarg)
+
+    def get_absolute_url(self):
+        return reverse('snippet:pastes-detail', kwargs={'shortcode': self.shortcode})
 
     @property
     def is_expired(self) -> bool:

@@ -1,9 +1,11 @@
 from rest_framework.decorators import action
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import Pastes
-from .serializers import PastesSerializer
+from .serializers import PastesSerializer, AllwedUserSerializer
 from .permissions import IsOwnedPastes, IsOwnedOrSharedPastes
 
 
@@ -59,3 +61,18 @@ class PastesViewset(ModelViewSet):
         shared = Pastes.objects.filter(allowed_user__user=self.request.user)
         self.queryset = owned.union(shared)
         return super().list(request, *args, **kwargs)
+
+    @action(
+        detail=True,
+        methods=['put'],
+        permission_classes=[IsOwnedPastes, IsAuthenticated],
+        url_path='shared-member',
+        url_name='shared-member'
+    )
+    def edit_shared_member(self, request, shortcode, *args, **kwargs):
+        serializer = AllwedUserSerializer(data=request.data)
+        instance = self.get_object()
+        if serializer.is_valid() and instance.privacy == Pastes.SHARED:
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
