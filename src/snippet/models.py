@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from dateutil.relativedelta import relativedelta
 
+from .managers import PastesManager
 from helper.models import BaseModel
 from helper.utilities import code_generator
 
@@ -46,6 +47,11 @@ class Pastes(BaseModel):
     privacy = models.IntegerField(choices=PRIVACY_CHOICE, default=PUBLIC)
     allowed_user = models.ManyToManyField('authentication.Profile', related_name='shared', blank=True)
     shortcode = models.SlugField(max_length=15, unique=True, blank=True, db_index=True)
+
+    objects = PastesManager()
+
+    class Meta:
+        ordering = ['-created']
 
     def __str__(self) -> str:
         return self.title

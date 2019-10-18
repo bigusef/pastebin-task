@@ -53,3 +53,22 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'email': instance.user.email,
         })
         return context
+
+
+class UserSerializer(serializers.ModelSerializer):
+    email = serializers.ReadOnlyField(source='user.email')
+    username = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        from authentication.models import Profile as UserProfile
+        model = UserProfile
+        fields = 'full_name', 'email', 'username',
+
+    def to_representation(self, instance):
+        context = super().to_representation(instance)
+        context.update({
+            "total_pastes": instance.pastes_set.count(),
+            "available_pastes": instance.pastes_set.available().count(),
+            "unavailable_pastes": instance.pastes_set.unavailable().count()
+        })
+        return context
