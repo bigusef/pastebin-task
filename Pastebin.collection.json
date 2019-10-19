@@ -369,16 +369,33 @@
 							}
 						],
 						"url": {
-							"raw": "{{servier_link}}/pastes/",
+							"raw": "{{servier_link}}/pastes/?",
 							"host": [
 								"{{servier_link}}"
 							],
 							"path": [
 								"pastes",
 								""
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "gte",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "lte",
+									"value": "",
+									"disabled": true
+								}
 							]
 						},
-						"description": "let authenticated user and guest user to list all public Pastes. this API will return only public Pastes\n\n\n**NO Authorization**"
+						"description": "- let authenticated user and guest user to get list of Pastes.\n- this API will return only public Pastes.\n- this list will return only not expired pastes\n\navalible filters:\n- *date* filter this list by spacific date\n- *gte* filter this list by date and return all pastes created after this date or on thia date\n- *lte* filter this list by date and return all pastes created before this date or on thia date\n- you can't filter with more than one filter per request\n\n\n**NO Authorization**"
 					},
 					"response": []
 				},
@@ -409,7 +426,38 @@
 								""
 							]
 						},
-						"description": "list all pastes that created by current authenticated user **OR** sheard with him\n\n\n**Authorization required**"
+						"description": "list all pastes that created by current authenticated user **OR** sheard with him\n\navalible filters:\n- *date* filter this list by spacific date\n- *gte* filter this list by date and return all pastes created after this date or on thia date\n- *lte* filter this list by date and return all pastes created before this date or on thia date\n- you can't filter with more than one filter per request\n\n\n**Authorization required**"
+					},
+					"response": []
+				},
+				{
+					"name": "List and search pastes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Token {{toke}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{servier_link}}/pastes/search/",
+							"host": [
+								"{{servier_link}}"
+							],
+							"path": [
+								"pastes",
+								"search",
+								""
+							]
+						},
+						"description": "this API will provide list of all pastes for auth user and guest user\n\n##### for guest user\nthis api will return only all avalible public pastes\nthis api not return expire pastes\n\n##### for auth user\nthis api will return all public pastes and all his privet pastes and all shared pastes with him\n\n\n##### avalible filters:\n- *date* filter this list by spacific date\n- *gte* filter this list by date and return all pastes created after this date or on thia date\n- *lte* filter this list by date and return all pastes created before this date or on thia date\n- you can't filter with more than one filter per request"
 					},
 					"response": []
 				},
@@ -655,15 +703,15 @@
 	],
 	"variable": [
 		{
-			"id": "a1b915b5-0d01-4236-9115-3ba0e03a1bdd",
+			"id": "5ebea127-1b67-4c23-adc5-af87fc4f0d7a",
 			"key": "servier_link",
 			"value": "http://127.0.0.1:8000",
 			"type": "string"
 		},
 		{
-			"id": "61cc0706-d209-4ee8-b2ea-9a8dca8bbf8e",
+			"id": "cc0273de-2dc3-4022-a2a8-f8f5aee0efa1",
 			"key": "toke",
-			"value": "13dcd4d4e21d6ad1ae9c5d257ab71bfdb1c07d42",
+			"value": "84d0508a966665d9766844d46249a8ff8d95c5d0",
 			"type": "string"
 		}
 	],
