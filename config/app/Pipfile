@@ -13,6 +13,7 @@ djangorestframework = "*"
 psycopg2-binary = "*"
 python-dateutil = "*"
 djangorestframework-csv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.7"
