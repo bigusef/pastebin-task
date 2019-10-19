@@ -10,10 +10,10 @@ autopep8 = "*"
 [packages]
 django = "*"
 djangorestframework = "*"
-psycopg2-binary = "*"
+psycopg2 = "*"
+gunicorn = "*"
 python-dateutil = "*"
 djangorestframework-csv = "*"
-gunicorn = "*"
 
 [requires]
 python_version = "3.7"

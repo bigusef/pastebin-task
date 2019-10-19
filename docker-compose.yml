@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  web:
+    container_name: pastebin-web
+    build: .
+    env_file: # declare environment variables
+      - config/app.env
+    volumes: # Volumes for project files configration and static files
+      - ./src:/opt/services/pastebin/src
+      - static_volume:/opt/services/pastebin/static
+    networks:
+      - nginx_network
+      - psqldb_network
+    depends_on:
+      - psqldb
+
+  nginx:
+    container_name: pastebin-nginx
+    image: nginx:1.13
+    ports: # mapping prot
+      - 80:80
+    volumes: # Volumes for nginx configration and static files
+      - ./config/web:/etc/nginx/conf.d
+      - static_volume:/opt/services/pastebin/static
+    depends_on: # wait for web service to be "ready" before starting this service
+      - web
+    networks:
+      - nginx_network
+
+  psqldb:
+    container_name: pastebin-db
+    image: postgres:10
+    env_file: # declare environment variables
+      - config/db.env
+    networks:
+      - psqldb_network
+    volumes: # Volumes for database
+      - psqldb_volume:/var/lib/postgresql/data
+
+networks:
+  psqldb_network:
+    driver: bridge
+  nginx_network:
+    driver: bridge
+
+volumes:
+  psqldb_volume:
+  static_volume:

@@ -25,10 +25,7 @@ __pycache__/
 *$py.class
 *.log
 # Environments
-.env
-.venv/
-env
-venv/
+*.env
 # C extensions
 *.so
 # Translations
