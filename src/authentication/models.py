@@ -72,20 +72,29 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Profile(BaseModel):
+    """
+    Stores user profile data, related to :model:`authentication.User`
+    """
+    # region class attribute
     MALE = 1
     FEMALE = 2
+    # endregion
 
+    # region class choices
     GENDER_CHOICE = (
         (MALE, _('Male')),
         (FEMALE, _('Female')),
     )
+    # endregion
 
+    # DB Attribute
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
     gender = models.IntegerField(choices=GENDER_CHOICE, default=MALE)
     birth_date = models.DateField(null=True, blank=True)
 
+    # default manager
     objects = ProfileManager()
 
     class Meta:
@@ -94,6 +103,12 @@ class Profile(BaseModel):
         db_table = 'auth_user_profile'
         verbose_name = _('user profile')
         verbose_name_plural = _('users profile')
+
+    def __str__(self) -> str:
+        """
+        magic method responsible of return string representation for each instance
+        """
+        return self.first_name if self.full_name else self.user.username
 
     @property
     def full_name(self) -> str:
@@ -116,6 +131,7 @@ class Profile(BaseModel):
     def age(self) -> int:
         """
         Return the user age based on birth date
+        :return intger user age
         """
         if self.birth_date:
             today = timezone.now().date()

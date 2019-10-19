@@ -8,6 +8,9 @@ from .models import Profile
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance, created, **kwargs):
+    """
+    this function it's sgnail fire when create new user account to create new user profile and user token
+    """
     if created:
         Profile.objects.create(user=instance)
         Token.objects.create(user=instance)

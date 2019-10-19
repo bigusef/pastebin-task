@@ -1,4 +1,4 @@
-# Pastrbin app with DRf (Django REST framework)
+# Pastebin app with DRF (Django REST framework)
 
 ### Overview
 to know about this app and his goals please read `DOCS.md` file
@@ -19,7 +19,7 @@ i'm using in this app:
 ### Prerequisites
 
 - **clone GitHub repository**
-- **you must have Docker and Docker Compose installed on your labtop**
+- **for Docker configuration you must have Docker and Docker Compose installed on your labtop**
 - **for testing API endpoint you will need disktop application `Postman` or similar application**
 
 ### Before run application

@@ -87,6 +87,7 @@ WSGI_APPLICATION = 'pastebin.wsgi.application'
 
 DATABASES = {
     'default': {
+        # PostgreSql database connection
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
@@ -135,9 +136,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'static')
-
+# tuble of all static files dirs
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+
+# root and output dir to serve files from this file
+STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'static')
 
 
 # Django Rest Freamework

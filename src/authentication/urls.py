@@ -12,6 +12,7 @@ from .views import (
 
 app_name = 'authentication'
 
+# regular user pattern contan all views on this app
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', obtain_auth_token, name='login'),
@@ -19,6 +20,7 @@ urlpatterns = [
     path('profile/', UserProfileView.as_view(), name='user_profile'),
 ]
 
+# create and inject app router contains all view set on app
 router = DefaultRouter()
 router.register('statistics', StatisticsViewset, base_name='statistics')
 urlpatterns.extend(router.urls)

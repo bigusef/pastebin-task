@@ -39,6 +39,7 @@ class Pastes(BaseModel):
     )
     # endregion
 
+    # Database attributes
     author = models.ForeignKey('authentication.Profile', on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=45)
     contect = models.TextField()
@@ -48,15 +49,23 @@ class Pastes(BaseModel):
     allowed_user = models.ManyToManyField('authentication.Profile', related_name='shared', blank=True)
     shortcode = models.SlugField(max_length=15, unique=True, blank=True, db_index=True)
 
+    # Default manager
     objects = PastesManager()
 
     class Meta:
         ordering = ['-created']
 
     def __str__(self) -> str:
+        """
+        magic method responsible of return string representation for each instance
+        """
         return self.title
 
     def save(self, *args, **kwarg):
+        """
+        override default save method to create expire date if instance expiration not never
+        and make sure instance have shortcode and if not have genrate new shortcode
+        """
         if self.expiration == self.HOUR:
             self.expire_date = timezone.now() + relativedelta(hours=1)
         elif self.expiration == self.DAY:
@@ -72,8 +81,14 @@ class Pastes(BaseModel):
         return super().save(*args, **kwarg)
 
     def get_absolute_url(self):
+        """
+        return instatce detail view url 
+        """
         return reverse('snippet:pastes-detail', kwargs={'shortcode': self.shortcode})
 
     @property
     def is_expired(self) -> bool:
+        """
+        property responsbile on return boolan flag is postes instance is erpire or not
+        """
         return timezone.now() >= self.expire_date if self.expire_date else False
