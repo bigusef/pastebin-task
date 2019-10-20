@@ -28,7 +28,7 @@ i'm using in this app:
 
   - `SECRET` put on this variable django app secret key
   - `DEBUGGER` put on this variable boolan flag reflect debugger mode in django app with python format (eg. `False`)
-  - `HOSTS` put on this variable string contain all allwed hosts separated by `,`
+  - `HOSTS` put on this variable string contain all allwed hosts separated by ` `
   - `DB_NAME` put on this variablestring database name
   - `DB_USER` put on this variablestring database user role
   - `DB_PASSWORD` put on this variablestring database password
