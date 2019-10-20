@@ -1,6 +1,16 @@
 version: '3'
 
 services:
+  db:
+    container_name: pastebin-db
+    image: postgres:10
+    env_file: # declare environment variables
+      - config/db.env
+    networks:
+      - psqldb_network
+    volumes: # Volumes for database
+      - psqldb_volume:/var/lib/postgresql/data
+
   web:
     container_name: pastebin-web
     build: .
@@ -13,7 +23,7 @@ services:
       - nginx_network
       - psqldb_network
     depends_on:
-      - psqldb
+      - db
 
   nginx:
     container_name: pastebin-nginx
@@ -27,16 +37,6 @@ services:
       - web
     networks:
       - nginx_network
-
-  psqldb:
-    container_name: pastebin-db
-    image: postgres:10
-    env_file: # declare environment variables
-      - config/db.env
-    networks:
-      - psqldb_network
-    volumes: # Volumes for database
-      - psqldb_volume:/var/lib/postgresql/data
 
 networks:
   psqldb_network:
