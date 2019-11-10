@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.get('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = eval(os.environ.get('DEBUGGER'))
 
-ALLOWED_HOSTS = os.environ.get('HOSTS').split(',')
+ALLOWED_HOSTS = os.environ.get('HOSTS').split(' ')
 
 
 # Application definition
@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 
 # root and output dir to serve files from this file
-STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), 'static')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 
 
 # Django Rest Freamework
